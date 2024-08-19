@@ -72,9 +72,15 @@ class NonRectangularRoom(NonRectangularPremises):
         return f"{self.room_type} - {super().__str__()}"
     
 class Flat:
-    def __init__(self, address, premises):
+    def __init__(self, address, premises = None):
         self.address = address
-        self.premises = premises
+        self.premises = premises if premises else []
+    
+    def add_premise(self, premise):
+        self.premises.append(premise)
+
+    def remove_premise(self, premise):
+        self.premises.remove(premise)
 
     def total_area(self):
         return sum([premise.area for premise in self.premises])
@@ -91,6 +97,14 @@ living_room = Room(5, 4, "Wood", 1, "Living Room")
 bedroom = Room(5, 3, "Carpet", 1, "Bedroom")
 children_room = NonRectangularRoom(16, 18, "Wood", 2, "Children Room")
 hall = NonRectangularRoom(6, 12, "Tile", 0, "Hall")
-flat = Flat("22 Kanatna Street, Odesa", [kitchen, master_bathroom, guest_toilet, living_room, bedroom, children_room, hall])
+
+flat = Flat("22 Kanatna Street, Odesa")
+flat.add_premise(kitchen)
+flat.add_premise(master_bathroom)
+flat.add_premise(guest_toilet)
+flat.add_premise(living_room)
+flat.add_premise(bedroom)
+flat.add_premise(children_room)
+flat.add_premise(hall)
 
 print(flat)
