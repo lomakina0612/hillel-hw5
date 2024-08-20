@@ -2,16 +2,22 @@
 class Premises:
     def __init__(self, shape="rectangle", flooring_type="Tile", windows_count=1, 
                  length=None, width=None, area=None, perimeter=None):
-# give length and width for a rectangle shape
         self.flooring_type = flooring_type
         self.windows_count = windows_count
         self.shape = shape
 
-        if self.shape == "rectangle" and length is not None and width is not None:
-            self.length = length
-            self.width = width
-            self.area = self.calculate_area()
-            self.perimeter = self.calculate_perimeter()
+        if self.shape == "rectangle":
+            if length is not None and width is not None:
+                self.length = length
+                self.width = width
+                self.area = self.calculate_area()
+                self.perimeter = self.calculate_perimeter()
+            elif area is not None and perimeter is not None:
+                self.area = area
+                self.perimeter = perimeter
+            else:
+                raise ValueError("For rectangle shape, either provide length and width, "
+                                 "or area and perimeter.")
         elif self.shape == "complex" and area is not None and perimeter is not None:
             self.area = area
             self.perimeter = perimeter
@@ -27,7 +33,7 @@ class Premises:
     def __str__(self):
         return (f"Shape: {self.shape}, Area: {self.area} sqm, Perimeter: {self.perimeter} m, "
                 f"Flooring: {self.flooring_type}, Windows: {self.windows_count}")
-
+        
 class Kitchen(Premises):
     def __init__(self, shape="rectangle", flooring_type="Tile", windows_count=1, length=None, 
                  width=None, area=None, perimeter=None, appliance_count=1, has_dishwasher=True):
@@ -42,7 +48,8 @@ class Kitchen(Premises):
 
 class Bathroom(Premises):
     def __init__(self, shape="rectangle", flooring_type="Tile", windows_count=0, length=None, 
-                 width=None, area=None, perimeter=None, room_type="Bathroom", has_bathtub=False, has_shower=True, has_toilet=True):
+                 width=None, area=None, perimeter=None, room_type="Bathroom", has_bathtub=False, 
+                 has_shower=True, has_toilet=True):
         super().__init__(shape=shape, flooring_type=flooring_type, windows_count=windows_count, 
                          length=length, width=width, area=area, perimeter=perimeter)
         
@@ -93,7 +100,6 @@ living_room = Room(room_type="Living Room", length=5, width=4)
 bedroom = Room(room_type="Bedroom", length=5, width=3,  flooring_type="Carpet")
 children_room = Room(room_type="Children Room", shape="complex", windows_count=2, area=16, perimeter=18)
 hall = Room(room_type="Hall", shape="complex", windows_count=0, area=6, perimeter=12, flooring_type="Tile")
-
 
 flat = Flat("22 Kanatna Street, Odesa")
 flat.add_premise(kitchen)
